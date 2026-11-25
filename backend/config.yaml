@@ -1,0 +1,46 @@
+app:
+  name: "InfraClarity AI"
+  version: "1.0.0"
+  description: "Infrastructure Inspection Image Enhancer"
+
+analysis:
+  blur:
+    # Variance of Laplacian on grayscale image (0-255 scale).
+    # Lower variance corresponds to higher blur severity.
+    severe_threshold: 60.0
+    moderate_threshold: 180.0
+  haze:
+    # Mean of 15x15 dark channel on normalized [0, 1] RGB image.
+    # Higher value indicates more atmospheric scattering/haze.
+    severe_threshold: 0.35
+    moderate_threshold: 0.18
+  noise:
+    # Robust sigma estimate via scikit-image estimate_sigma on [0, 255] range.
+    # Higher sigma indicates heavier sensor/shot noise.
+    severe_threshold: 8.0
+    moderate_threshold: 2.5
+  contrast:
+    # Root-mean-square (RMS) contrast of normalized luminance channel.
+    # Lower RMS contrast indicates washed-out or low-light imagery.
+    severe_threshold: 0.15
+    moderate_threshold: 0.28
+  resolution:
+    # Flag raised if the shorter dimension is below this pixel threshold.
+    min_shorter_side: 1080
+
+tiling:
+  tile_size: 512
+  overlap: 32
+  max_dimension: 6000
+  min_tile_size: 256
+
+storage:
+  jobs_dir: "backend/data/jobs"
+  max_upload_size_mb: 50
+  cleanup_interval_seconds: 600
+  job_ttl_seconds: 3600
+  strip_gps_default: true
+
+models:
+  weights_dir: "backend/weights"
+  device: "auto"
